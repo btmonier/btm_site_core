@@ -32,7 +32,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Generate CV PDF
-        run: ./gradlew jvmRun --args="-o btmonier_cv.pdf"
+        run: |
+          chmod +x gradlew
+          ./gradlew jvmRun --args="-o btmonier_cv.pdf"
 
       - name: Get version
         id: version
