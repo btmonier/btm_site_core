@@ -33,19 +33,21 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build JS Bundle
+      - name: Build JS Distribution
         run: |
           chmod +x gradlew
-          ./gradlew jsBrowserProductionWebpack
+          ./gradlew jsBrowserDistribution
 
-      - name: Copy resources to distribution
+      - name: Debug build output
         run: |
-          # Debug: Show what was built
-          find build -type d -name "*Executable*" 2>/dev/null || true
-          ls -la build/dist/js/ 2>/dev/null || true
-          # Create directory if it doesn't exist and copy resources
-          mkdir -p build/dist/js/productionExecutable
-          cp -r src/jsMain/resources/* build/dist/js/productionExecutable/
+          echo "=== Build directory structure ==="
+          find build/dist -type f 2>/dev/null | head -50 || echo "No build/dist found"
+          echo ""
+          echo "=== Looking for JS files ==="
+          find build -name "*.js" -type f 2>/dev/null | head -20 || echo "No JS files found"
+          echo ""
+          echo "=== Distribution contents ==="
+          ls -laR build/dist/js/productionExecutable/ 2>/dev/null || echo "productionExecutable not found"
           
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
