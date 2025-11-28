@@ -1,6 +1,6 @@
 # Personal Website
 
-My personal profile and CV generator built using Kotlin Mutliplatform
+My personal profile and CV generator built using [Kotlin Mutliplatform](https://kotlinlang.org/docs/multiplatform.html)
 
 * **JS Target**: Static website built with [`kotlinx-html`](https://kotlinlang.org/docs/typesafe-html-dsl.html)
 * **JVM Target**: CV PDF generator CLI using [OpenPDF](https://github.com/LibrePDF/OpenPDF)
