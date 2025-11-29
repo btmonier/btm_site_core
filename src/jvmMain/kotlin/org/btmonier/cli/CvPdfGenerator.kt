@@ -428,7 +428,8 @@ class CvPdfGenerator(private val dataDir: String) {
         "Rust" to "/icons/language-rust.svg",
         "SQL" to "/icons/database.svg",
         "Shiny" to "/icons/language-shiny.svg",
-        "CSS" to "/icons/language-css3.svg"
+        "CSS" to "/icons/language-css3.svg",
+        "Perl" to "/icons/language-perl.svg"
     )
 
     private fun addSoftware(document: Document, software: List<Software>) {
@@ -438,32 +439,82 @@ class CvPdfGenerator(private val dataDir: String) {
         addLanguageLegend(document, software)
 
         for (sw in software) {
-            // Create table for name + icons
-            val entryTable = PdfPTable(2)
+            // Calculate dynamic widths based on content
+            val titleWidth = robotoSerifBase.getWidthPoint(sw.name, 10f) // bodyBoldFont size
+            val iconSize = 10f
+            val iconSpacing = 4f // spacing between icons
+            val validIconCount = sw.languages.count { languageIcons.containsKey(it) }
+            val iconsWidth = if (validIconCount > 0) {
+                (validIconCount * iconSize) + ((validIconCount - 1) * iconSpacing)
+            } else 0f
+            
+            // Calculate available width for the table (page width minus margins)
+            val pageWidth = PageSize.LETTER.width - 72f - 72f // 72pt margins on each side
+            val leaderWidth = pageWidth - titleWidth - iconsWidth - 10f // 10f for minimal padding
+            
+            // Ensure minimum leader width
+            val adjustedLeaderWidth = maxOf(leaderWidth, 50f)
+            
+            // Create table with dynamic column widths
+            val entryTable = PdfPTable(3)
             entryTable.widthPercentage = 100f
-            entryTable.setWidths(floatArrayOf(85f, 15f))
+            entryTable.setTotalWidth(floatArrayOf(titleWidth + 5f, adjustedLeaderWidth, iconsWidth + 5f))
+            entryTable.isLockedWidth = true
 
             // Left cell: Software name
             val nameCell = PdfPCell()
             nameCell.border = Rectangle.NO_BORDER
             nameCell.phrase = Phrase(sw.name, bodyBoldFont)
+            nameCell.verticalAlignment = Element.ALIGN_BOTTOM
+            nameCell.paddingBottom = 3f
+            nameCell.paddingRight = 0f
+            nameCell.paddingLeft = 0f
             entryTable.addCell(nameCell)
+
+            // Middle cell: Subtle dotted leader line (dynamic width)
+            val leaderCell = PdfPCell()
+            leaderCell.border = Rectangle.NO_BORDER
+            leaderCell.verticalAlignment = Element.ALIGN_BOTTOM
+            leaderCell.paddingBottom = 5f
+            leaderCell.paddingLeft = 0f
+            leaderCell.paddingRight = 0f
+            // Create a dotted line using a custom cell event
+            leaderCell.cellEvent = object : PdfPCellEvent {
+                override fun cellLayout(cell: PdfPCell, position: Rectangle, canvases: Array<PdfContentByte>) {
+                    val cb = canvases[PdfPTable.LINECANVAS]
+                    cb.saveState()
+                    cb.setColorStroke(Color(180, 180, 180)) // Light gray
+                    cb.setLineDash(1f, 2f, 0f) // Dotted pattern
+                    cb.setLineWidth(0.5f)
+                    val y = position.bottom + 4f
+                    val padding = 4f // Small equal padding on both sides
+                    cb.moveTo(position.left + padding, y)
+                    cb.lineTo(position.right - padding, y)
+                    cb.stroke()
+                    cb.restoreState()
+                }
+            }
+            entryTable.addCell(leaderCell)
 
             // Right cell: Language icons
             val iconsCell = PdfPCell()
             iconsCell.border = Rectangle.NO_BORDER
             iconsCell.horizontalAlignment = Element.ALIGN_RIGHT
+            iconsCell.verticalAlignment = Element.ALIGN_BOTTOM
+            iconsCell.paddingBottom = 2f
+            iconsCell.paddingLeft = 0f
+            iconsCell.paddingRight = 0f
             
             val iconsParagraph = Paragraph()
             iconsParagraph.alignment = Element.ALIGN_RIGHT
             for (lang in sw.languages) {
                 val iconPath = languageIcons[lang]
                 if (iconPath != null) {
-                    val icon = loadSvgIcon(iconPath, 10f)
+                    val icon = loadSvgIcon(iconPath, iconSize)
                     if (icon != null) {
                         val chunk = Chunk(icon, 0f, 0f)
                         iconsParagraph.add(chunk)
-                        iconsParagraph.add(Chunk("  ")) // spacing between icons
+                        iconsParagraph.add(Chunk(" ")) // minimal spacing between icons
                     }
                 }
             }
