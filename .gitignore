@@ -52,3 +52,7 @@ output/
 node_modules/
 yarn.lock
 kotlin-js-store/
+
+### Pixi (R environment) ###
+.pixi/
+pixi.lock

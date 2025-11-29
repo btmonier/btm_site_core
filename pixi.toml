@@ -1,0 +1,18 @@
+[workspace]
+name = "scholar-metrics"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[dependencies]
+# R itself
+r = ">=4.3,<5"
+
+# R packages from conda-forge (names are prefixed with r-)
+r-scholar   = "*"
+r-jsonlite  = "*"
+r-dplyr     = "*"
+r-rvest     = "*"
+
+[tasks]
+# Adjust path if your script lives somewhere else
+metrics = "Rscript scripts/scrape_gs_metrics.R"
