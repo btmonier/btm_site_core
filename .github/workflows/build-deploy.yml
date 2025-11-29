@@ -94,7 +94,7 @@ jobs:
       - name: Get formatted timestamp
         id: timestamp
         run: |
-          FORMATTED_DATE=$(date -u +'%B-%d-%y @ %H:%M UTC')
+          FORMATTED_DATE=$(date -u +'%Y-%m-%d @ %H:%M UTC')
           echo "date=$FORMATTED_DATE" >> $GITHUB_OUTPUT
 
       - name: Create/Update Latest CV Release
