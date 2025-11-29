@@ -36,18 +36,21 @@ jobs:
       - name: Build JS Distribution
         run: |
           chmod +x gradlew
-          ./gradlew jsBrowserDistribution
+          ./gradlew clean jsBrowserDistribution --no-build-cache
 
       - name: Debug build output
         run: |
           echo "=== Build directory structure ==="
           find build/dist -type f 2>/dev/null | head -50 || echo "No build/dist found"
           echo ""
-          echo "=== Looking for JS files ==="
-          find build -name "*.js" -type f 2>/dev/null | head -20 || echo "No JS files found"
-          echo ""
           echo "=== Distribution contents ==="
           ls -laR build/dist/js/productionExecutable/ 2>/dev/null || echo "productionExecutable not found"
+          echo ""
+          echo "=== Verify publications.json content (first 30 lines) ==="
+          head -30 build/dist/js/productionExecutable/content/publications.json 2>/dev/null || echo "publications.json not found in build"
+          echo ""
+          echo "=== Source publications.json (first 30 lines) ==="
+          head -30 src/jsMain/resources/content/publications.json
           
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
@@ -89,7 +92,7 @@ jobs:
       - name: Generate CV PDF
         run: |
           chmod +x gradlew
-          ./gradlew jvmRun --args="-o btmonier_cv.pdf"
+          ./gradlew clean jvmRun --args="-o btmonier_cv.pdf" --no-build-cache
 
       - name: Get formatted timestamp
         id: timestamp
