@@ -13,13 +13,13 @@
     "since2020": 9
   },
   "citationsByYear": [
-    {"year": 2018, "count": 12},
-    {"year": 2019, "count": 26},
-    {"year": 2020, "count": 39},
-    {"year": 2021, "count": 95},
-    {"year": 2022, "count": 128},
-    {"year": 2023, "count": 173},
-    {"year": 2024, "count": 222},
-    {"year": 2025, "count": 209}
+    { "year": 2018, "count": 12 },
+    { "year": 2019, "count": 26 },
+    { "year": 2020, "count": 39 },
+    { "year": 2021, "count": 95 },
+    { "year": 2022, "count": 128 },
+    { "year": 2023, "count": 173 },
+    { "year": 2024, "count": 222 },
+    { "year": 2025, "count": 209 }
   ]
 }

@@ -160,7 +160,7 @@ json_text <- toJSON(metrics_list, pretty = TRUE, auto_unbox = TRUE)
 # Replaces with: {"year": YYYY, "count": N}
 json_text <- gsub(
     '\\{\n\\s+"year":\\s*(\\d+),\n\\s+"count":\\s*(\\d+)\n\\s+\\}',
-    '{"year": \\1, "count": \\2}',
+    '{ "year": \\1, "count": \\2 }',
     json_text
 )
 
