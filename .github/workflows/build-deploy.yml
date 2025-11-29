@@ -92,18 +92,36 @@ jobs:
       - name: Generate CV PDF
         run: |
           chmod +x gradlew
+          echo "=== Current working directory ==="
+          pwd
+          echo ""
+          echo "=== Running Gradle jvmRun ==="
           ./gradlew clean jvmRun --args="-o btmonier_cv.pdf" --no-build-cache
+          echo ""
+          echo "=== Searching for generated PDF ==="
+          find . -name "*.pdf" -type f 2>/dev/null || echo "No PDF files found"
+          echo ""
+          echo "=== Listing project root ==="
+          ls -la
 
       - name: Verify CV PDF generated
         run: |
           echo "=== Checking generated PDF ==="
-          ls -la btmonier_cv.pdf
-          echo ""
-          echo "=== PDF file info ==="
-          file btmonier_cv.pdf
-          echo ""
-          echo "=== Verify publications in source (first entry) ==="
-          head -20 src/jsMain/resources/content/publications.json
+          if [ -f "btmonier_cv.pdf" ]; then
+            ls -la btmonier_cv.pdf
+            file btmonier_cv.pdf
+          else
+            echo "PDF not in root, searching..."
+            PDF_PATH=$(find . -name "btmonier_cv.pdf" -type f 2>/dev/null | head -1)
+            if [ -n "$PDF_PATH" ]; then
+              echo "Found PDF at: $PDF_PATH"
+              cp "$PDF_PATH" ./btmonier_cv.pdf
+              ls -la btmonier_cv.pdf
+            else
+              echo "ERROR: btmonier_cv.pdf not found anywhere!"
+              exit 1
+            fi
+          fi
 
       - name: Get formatted timestamp
         id: timestamp
