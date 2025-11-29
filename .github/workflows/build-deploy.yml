@@ -95,8 +95,14 @@ jobs:
           echo "=== Current working directory ==="
           pwd
           echo ""
+          echo "=== Verify data directory exists ==="
+          ls -la src/jsMain/resources/content/ || echo "Data directory not found!"
+          echo ""
           echo "=== Running Gradle jvmRun ==="
-          ./gradlew clean jvmRun --args="-o btmonier_cv.pdf" --no-build-cache
+          ./gradlew clean jvmRun --args="-o btmonier_cv.pdf" --no-build-cache --stacktrace 2>&1
+          GRADLE_EXIT=$?
+          echo ""
+          echo "=== Gradle exit code: $GRADLE_EXIT ==="
           echo ""
           echo "=== Searching for generated PDF ==="
           find . -name "*.pdf" -type f 2>/dev/null || echo "No PDF files found"
