@@ -81,7 +81,7 @@ fun createAboutPage(config: SiteConfig, about: About): HTMLElement {
                         }
                         span("material-icons link-arrow") { +"arrow_forward" }
                     }
-                    a(href = "https://github.com/btmonier/personal_site/releases/download/cv-latest/btmonier_cv.pdf", target = "_blank", classes = "link-card md-card md-card-elevated") {
+                    a(href = "https://github.com/btmonier/btm_site_core/releases/download/cv-latest/btmonier_cv.pdf", target = "_blank", classes = "link-card md-card md-card-elevated") {
                         div("link-icon-container") {
                             i(classes = "fa-solid fa-file-pdf") {}
                         }
