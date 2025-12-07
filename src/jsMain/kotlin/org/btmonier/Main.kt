@@ -166,6 +166,9 @@ private fun renderApp() {
     // Create Bottom Navigation (mobile)
     appLayout.appendChild(createBottomNav())
     
+    // Create Footer
+    appLayout.appendChild(createFooter())
+    
     // Setup nav click handlers
     setupNavigation()
 }
@@ -255,6 +258,35 @@ private fun createBottomNav(): HTMLElement {
                         span("material-icons") { +icon }
                     }
                     span("bottom-nav-item-label") { +label }
+                }
+            }
+        }
+    }
+}
+
+private fun createFooter(): HTMLElement {
+    return document.create.footer("site-footer") {
+        id = "site-footer"
+        div("footer-content") {
+            div("footer-left") {
+                div("footer-copyright") { +"Copyright © Brandon Monier 2025" }
+                div("footer-made-with") {
+                    +"Made with "
+                    a(href = "https://github.com/btmonier/btm_site_core", target = "_blank", classes = "footer-text-link") {
+                        +"spite"
+                    }
+                    +" and "
+                    a(href = "https://www.jetbrains.com/kotlin-multiplatform/", target = "_blank", classes = "footer-text-link") {
+                        +"Kotlin/JS"
+                    }
+                }
+            }
+            div("footer-right") {
+                a(href = "https://github.com/btmonier", target = "_blank", classes = "footer-link") {
+                    i(classes = "fa-brands fa-github") {}
+                }
+                a(href = "https://orcid.org/0000-0001-6797-1221", target = "_blank", classes = "footer-link") {
+                    i(classes = "fa-brands fa-orcid") {}
                 }
             }
         }
