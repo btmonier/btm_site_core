@@ -12,7 +12,8 @@ data class Publication(
     val pages: String? = null,
     val doi: String? = null,
     val url: String? = null,
-    val abstract: String? = null
+    val abstract: String? = null,
+    val type: String? = null
 )
 
 @Serializable

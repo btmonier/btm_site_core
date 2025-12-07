@@ -52,6 +52,12 @@ jobs:
           echo "=== Source publications.json (first 30 lines) ==="
           head -30 src/jsMain/resources/content/publications.json
           
+      - name: Create 404.html for GitHub Pages
+        run: |
+          # Copy index.html to 404.html so GitHub Pages serves the SPA for 404 errors
+          cp build/dist/js/productionExecutable/index.html build/dist/js/productionExecutable/404.html
+          echo "Created 404.html from index.html"
+          
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
         with:

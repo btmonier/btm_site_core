@@ -25,9 +25,23 @@ private fun formatDate(yyyymmdd: String): String {
     }
 }
 
+private fun formatTypeLabel(type: String): String {
+    return when (type.lowercase()) {
+        "journal_article" -> "Journal Article"
+        "review" -> "Review"
+        "phd_dissertation" -> "PhD Dissertation"
+        "master_thesis" -> "Master's Thesis"
+        "book_chapter" -> "Book Chapter"
+        else -> type.replace("_", " ").split(" ").joinToString(" ") { word ->
+            word.lowercase().replaceFirstChar { it.uppercase() }
+        }
+    }
+}
+
 fun createPublicationsPage(publications: List<Publication>, scholarStats: ScholarStats): HTMLElement {
     val years = publications.map { it.year }.distinct().sortedDescending()
     val pubsByYear: Map<Int, List<Publication>> = publications.groupBy { it.year }
+    val types: List<String> = publications.mapNotNull { pub: Publication -> pub.type }.distinct().sorted()
     
     return document.create.div {
         div("page-header") {
@@ -95,6 +109,50 @@ fun createPublicationsPage(publications: List<Publication>, scholarStats: Schola
             }
         }
         
+        // Filter Section
+        div("filter-section") {
+            id = "publications-filters"
+            
+            // Type Filter
+            div("filter-group") {
+                h3("filter-group-title") {
+                    span("material-icons") { +"category" }
+                    +"Type"
+                }
+                div("filter-chips") {
+                    // "All" chip
+                    button(classes = "filter-chip active") {
+                        attributes["data-filter-type"] = "type"
+                        attributes["data-filter-value"] = "all"
+                        +"All"
+                    }
+                    types.forEach { type ->
+                        button(classes = "filter-chip") {
+                            attributes["data-filter-type"] = "type"
+                            attributes["data-filter-value"] = type
+                            +formatTypeLabel(type)
+                        }
+                    }
+                }
+            }
+            
+            // Active filters display
+            div("active-filters") {
+                id = "active-filters"
+                span("active-filters-label") { +"Showing: " }
+                span("active-filters-count") {
+                    id = "filter-count"
+                    +"${publications.size} publications"
+                }
+                button(classes = "clear-filters-btn") {
+                    id = "clear-filters"
+                    style = "display: none;"
+                    span("material-icons") { +"close" }
+                    +"Clear filters"
+                }
+            }
+        }
+        
         div("page-with-sidebar") {
             // Year Navigation Sidebar
             nav("year-nav-sidebar") {
@@ -122,6 +180,8 @@ fun createPublicationsPage(publications: List<Publication>, scholarStats: Schola
                             div("year-section-items") {
                                 pubs.forEach { pub ->
                                     div("publication-card md-card md-card-elevated") {
+                                        attributes["data-type"] = pub.type ?: ""
+                                        
                                         div("publication-content") {
                                             h3("publication-title") {
                                                 if (pub.url != null) {
@@ -149,11 +209,26 @@ fun createPublicationsPage(publications: List<Publication>, scholarStats: Schola
                                                     +": $pages"
                                                 }
                                             }
-                                            if (pub.doi != null) {
-                                                div("publication-actions") {
-                                                    a(href = "https://doi.org/${pub.doi}", target = "_blank", classes = "md-button md-button-tonal") {
-                                                        span("material-icons") { +"open_in_new" }
-                                                        +"View Paper"
+                                            div("publication-footer") {
+                                                if (pub.type != null) {
+                                                    div("publication-tags") {
+                                                        span("md-chip md-chip-suggestion publication-type-chip") {
+                                                            attributes["data-type"] = pub.type
+                                                            +formatTypeLabel(pub.type)
+                                                        }
+                                                    }
+                                                }
+                                                if (pub.url != null || pub.doi != null) {
+                                                    div("publication-actions") {
+                                                        val linkUrl = pub.url ?: "https://doi.org/${pub.doi}"
+                                                        val linkText = when (pub.type?.lowercase()) {
+                                                            "phd_dissertation", "master_thesis" -> "View Article"
+                                                            else -> "View Paper"
+                                                        }
+                                                        a(href = linkUrl, target = "_blank", classes = "md-button md-button-tonal") {
+                                                            span("material-icons") { +"open_in_new" }
+                                                            +linkText
+                                                        }
                                                     }
                                                 }
                                             }
@@ -164,6 +239,18 @@ fun createPublicationsPage(publications: List<Publication>, scholarStats: Schola
                         }
                     }
                 }
+            }
+        }
+        
+        // No results message
+        div("no-results") {
+            id = "no-results"
+            style = "display: none;"
+            span("material-icons") { +"search_off" }
+            p { +"No publications match the selected filters" }
+            button(classes = "md-button md-button-tonal") {
+                id = "no-results-clear"
+                +"Clear filters"
             }
         }
     }

@@ -4,7 +4,8 @@
       "title": "Revealing the genetic architecture of Nonphotochemical quenching in sorghum through high-throughput screening of dynamic photoprotection",
       "authors": ["Richard L. Vath", "Samuel B. Fernandes", "Brandon Monier", "Katarzyna Głowacka", "Taylor L. Pederson", "Carl J. Bernacchi", "John Ferguson", "Johannes Kromdijk"],
       "journal": "In Preparation",
-      "year": 2025
+      "year": 2025,
+      "type": "journal_article"
     },
     {
       "title": "Fishing for a reelGene: evaluating gene models with evolution and machine learning",
@@ -14,7 +15,8 @@
       "volume": "123",
       "pages": "e70483",
       "doi": "10.1111/tpj.70483",
-      "url": "https://doi.org/10.1111/tpj.70483"
+      "url": "https://doi.org/10.1111/tpj.70483",
+      "type": "journal_article"
     },
     {
       "title": "Evolutionary signatures of the erosion of sexual reproduction genes in domesticated cassava (Manihot esculenta)",
@@ -24,7 +26,8 @@
       "volume": "15",
       "pages": "jkae282",
       "doi": "10.1093/g3journal/jkae282",
-      "url": "https://doi.org/10.1093/g3journal/jkae282"
+      "url": "https://doi.org/10.1093/g3journal/jkae282",
+      "type": "journal_article"
     },
     {
       "title": "Muller’s Ratchet in Action: The Erosion of Sexual Reproduction Genes in Domesticated Cassava (Manihot esculenta)",
@@ -33,7 +36,8 @@
       "year": 2024,
       "pages": "2024.02. 14.580345",
       "doi": "10.1101/2024.02.14.580345",
-      "url": "https://doi.org/10.1101/2024.02.14.580345"
+      "url": "https://doi.org/10.1101/2024.02.14.580345",
+      "type": "journal_article"
     },
     {
       "title": "Elucidating the patterns of pleiotropy and its biological relevance in maize",
@@ -43,7 +47,8 @@
       "volume": "19",
       "pages": "1-28",
       "doi": "10.1371/journal.pgen.1010664",
-      "url": "https://doi.org/10.1371/journal.pgen.1010664"
+      "url": "https://doi.org/10.1371/journal.pgen.1010664",
+      "type": "journal_article"
     },
     {
       "title": "The role of transposon inverted repeats in balancing drought tolerance and yield-related traits in maize",
@@ -53,7 +58,8 @@
       "volume": "41",
       "pages": "120-127",
       "doi": "10.1038/s41587-022-01470-4",
-      "url": "https://doi.org/10.1038/s41587-022-01470-4"
+      "url": "https://doi.org/10.1038/s41587-022-01470-4",
+      "type": "journal_article"
     },
     {
       "title": "rTASSEL: An R interface to TASSEL for analyzing genomic diversity",
@@ -63,7 +69,8 @@
       "volume": "7",
       "pages": "4530",
       "doi": "10.21105/joss.04530",
-      "url": "https://doi.org/10.21105/joss.04530"
+      "url": "https://doi.org/10.21105/joss.04530",
+      "type": "journal_article"
     },
     {
       "title": "The Practical Haplotype Graph, a platform for storing and using pangenomes for imputation",
@@ -73,7 +80,8 @@
       "volume": "38",
       "pages": "3698-3702",
       "doi": "10.1093/bioinformatics/btac410",
-      "url": "https://doi.org/10.1093/bioinformatics/btac410"
+      "url": "https://doi.org/10.1093/bioinformatics/btac410",
+      "type": "journal_article"
     },
     {
       "title": "Variation in upstream open reading frames contributes to allelic diversity in protein abundance",
@@ -81,7 +89,8 @@
       "journal": "Proceedings of the National Academy of Sciences",
       "year": 2022,
       "doi": "10.1073/pnas.2112516119",
-      "url": "https://doi.org/10.1073/pnas.2112516119"
+      "url": "https://doi.org/10.1073/pnas.2112516119",
+      "type": "journal_article"
     },
     {
       "title": "Machine learning-enabled phenotyping for GWAS and TWAS of WUE traits in 869 field-grown sorghum accessions",
@@ -91,7 +100,8 @@
       "volume": "187",
       "pages": "1481-1500",
       "doi": "10.1093/plphys/kiab346",
-      "url": "https://doi.org/10.1093/plphys/kiab346"
+      "url": "https://doi.org/10.1093/plphys/kiab346",
+      "type": "journal_article"
     },
     {
       "title": "Ten years of the maize nested association mapping population: impact, limitations, and future directions",
@@ -101,7 +111,8 @@
       "volume": "32",
       "pages": "2083-2093",
       "doi": "10.1105/tpc.19.00951",
-      "url": "https://doi.org/10.1105/tpc.19.00951"
+      "url": "https://doi.org/10.1105/tpc.19.00951",
+      "type": "review"
     },
     {
       "title": "IRIS-EDA: An integrated RNA-Seq interpretation system for gene expression data analysis",
@@ -111,7 +122,8 @@
       "volume": "15",
       "pages": "e1006792",
       "doi": "10.1371/journal.pcbi.1006792",
-      "url": "https://doi.org/10.1371/journal.pcbi.1006792"
+      "url": "https://doi.org/10.1371/journal.pcbi.1006792",
+      "type": "journal_article"
     },
     {
       "title": "Interpretation of differential gene expression results of RNA-seq data: review and integration",
@@ -121,14 +133,16 @@
       "volume": "20",
       "pages": "2044-2054",
       "doi": "10.1093/bib/bby067",
-      "url": "https://doi.org/10.1093/bib/bby067"
+      "url": "https://doi.org/10.1093/bib/bby067",
+      "type": "review"
     },
     {
       "title": "Microbial communities and their impact on bioenergy crops in dynamic environments",
       "authors": ["Brandon Monier"],
       "journal": "PhD Thesis, South Dakota State University",
       "year": 2018,
-      "url": "https://openprairie.sdstate.edu/etd/2659"
+      "url": "https://openprairie.sdstate.edu/etd/2659",
+      "type": "phd_dissertation"
     },
     {
       "title": "IRIS-DGE: An integrated RNA-seq data analysis and interpretation system for differential gene expression",
@@ -137,7 +151,8 @@
       "year": 2018,
       "pages": "283341",
       "doi": "10.1101/283341",
-      "url": "https://doi.org/10.1101/283341"
+      "url": "https://doi.org/10.1101/283341",
+      "type": "journal_article"
     },
     {
       "title": "ViDGER: An R package for integrative interpretation of differential gene expression results of RNA-seq data",
@@ -146,7 +161,8 @@
       "year": 2018,
       "pages": "268896",
       "doi": "10.1101/268896",
-      "url": "https://doi.org/10.1101/268896"
+      "url": "https://doi.org/10.1101/268896",
+      "type": "journal_article"
     },
     {
       "title": "Inter- and intraspecific fungal diversity in the arbuscular mycorrhizal symbiosis",
@@ -155,14 +171,16 @@
       "year": 2017,
       "pages": "253-274",
       "doi": "10.1007/978-3-319-53064-2_12",
-      "url": "https://doi.org/10.1007/978-3-319-53064-2_12"
+      "url": "https://doi.org/10.1007/978-3-319-53064-2_12",
+      "type": "book_chapter"
     },
     {
       "title": "The Analysis of Cytotypic Variation and Construction of a BAC Library of Midwestern Prairie Cordgrass (Spartina pectinata Link) Genotypes",
       "authors": ["Brandon Monier"],
       "journal": "Master's Thesis, South Dakota State University",
       "year": 2013,
-      "url": "https://openprairie.sdstate.edu/etd/1624"
+      "url": "https://openprairie.sdstate.edu/etd/1624",
+      "type": "master_thesis"
     }
   ]
 }

@@ -220,12 +220,22 @@ private fun createNavBar(): HTMLElement {
             }
         }
         
-        // Social Links
-        div("nav-bar-actions") {
-            config.socialLinks.take(3).forEach { link ->
-                a(href = link.url, target = "_blank", classes = "icon-button") {
-                    title = link.platform
-                    i(classes = link.icon) {}
+        // Mobile Hamburger Menu Button
+        button(classes = "nav-hamburger") {
+            id = "nav-hamburger"
+            span("material-icons") { +"menu" }
+        }
+        
+        // Mobile Menu Dropdown
+        div("nav-mobile-menu") {
+            id = "nav-mobile-menu"
+            val allNavItems = navItems + dropdownItems
+            allNavItems.forEach { (id, label, icon) ->
+                a(href = "/$id", classes = "nav-mobile-menu-item") {
+                    attributes["data-page"] = id
+                    if (id == currentPage) classes = classes + " active"
+                    span("material-icons") { +icon }
+                    span("nav-mobile-menu-item-label") { +label }
                 }
             }
         }
@@ -285,8 +295,9 @@ private fun renderPage() {
         setupSoftwareFilters()
     }
     
-    // Initialize citations chart if on publications page
+    // Setup publications filters if on publications page
     if (currentPage == "publications") {
+        setupPublicationsFilters()
         initCitationsChart()
     }
 }
@@ -346,7 +357,7 @@ private fun initCitationsChart() {
 
 private fun setupNavigation() {
     // Setup click handlers for all nav items
-    document.querySelectorAll(".nav-bar-item, .bottom-nav-item, .nav-bar-dropdown-item").asList().forEach { element ->
+    document.querySelectorAll(".nav-bar-item, .bottom-nav-item, .nav-bar-dropdown-item, .nav-mobile-menu-item").asList().forEach { element ->
         element.addEventListener("click", { e ->
             e.preventDefault()
             val page = element.getAttribute("data-page") ?: "about"
@@ -373,6 +384,30 @@ private fun setupNavigation() {
         val target = e.target as? Element
         if (dropdown != null && target != null && !dropdown.contains(target)) {
             dropdown.classList.remove("open")
+        }
+    })
+    
+    // Mobile hamburger menu toggle
+    document.getElementById("nav-hamburger")?.addEventListener("click", { e ->
+        e.stopPropagation()
+        document.getElementById("nav-mobile-menu")?.classList?.toggle("open")
+    })
+    
+    // Close mobile menu when clicking on a menu item
+    document.querySelectorAll(".nav-mobile-menu-item").asList().forEach { element ->
+        element.addEventListener("click", {
+            document.getElementById("nav-mobile-menu")?.classList?.remove("open")
+        })
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener("click", { e ->
+        val mobileMenu = document.getElementById("nav-mobile-menu")
+        val hamburger = document.getElementById("nav-hamburger")
+        val target = e.target as? Element
+        if (mobileMenu != null && hamburger != null && target != null && 
+            !mobileMenu.contains(target) && !hamburger.contains(target)) {
+            mobileMenu.classList.remove("open")
         }
     })
 }
@@ -559,7 +594,7 @@ private fun navigateToPage(page: String) {
 }
 
 private fun updateActiveNavItems() {
-    document.querySelectorAll(".nav-bar-item, .bottom-nav-item, .nav-bar-dropdown-item").asList().forEach { element ->
+    document.querySelectorAll(".nav-bar-item, .bottom-nav-item, .nav-bar-dropdown-item, .nav-mobile-menu-item").asList().forEach { element ->
         val page = element.getAttribute("data-page")
         if (page == currentPage) {
             element.classList.add("active")
@@ -600,6 +635,9 @@ private fun isValidPage(page: String): Boolean {
 // Software filtering state
 private var activeLanguageFilter = "all"
 private var activeTagFilter = "all"
+
+// Publications filtering state
+private var activeTypeFilter = "all"
 
 private fun setupSoftwareFilters() {
     val filterChips = document.querySelectorAll(".filter-chip").asList()
@@ -712,10 +750,126 @@ private fun applyFilters() {
     (softwareGrid as? HTMLElement)?.style?.display = if (visibleCount == 0) "none" else "grid"
 }
 
+private fun setupPublicationsFilters() {
+    val filterChips = document.querySelectorAll("#publications-filters .filter-chip").asList()
+    val typeChips = document.querySelectorAll(".publication-type-chip").asList()
+    val clearFiltersBtn = document.getElementById("clear-filters")
+    val noResultsClearBtn = document.getElementById("no-results-clear")
+    
+    // Reset filter state
+    activeTypeFilter = "all"
+    
+    // Type filter chip click handlers
+    filterChips.forEach { chip ->
+        chip.addEventListener("click", {
+            val filterType = chip.getAttribute("data-filter-type") ?: return@addEventListener
+            val filterValue = chip.getAttribute("data-filter-value") ?: return@addEventListener
+            
+            // Update active state for this filter group
+            document.querySelectorAll("#publications-filters .filter-chip[data-filter-type='$filterType']").asList().forEach { c ->
+                c.classList.remove("active")
+            }
+            chip.classList.add("active")
+            
+            // Update filter state
+            if (filterType == "type") {
+                activeTypeFilter = filterValue
+            }
+            
+            applyPublicationFilters()
+        })
+    }
+    
+    // Type chip click handlers (on cards) - sets filter
+    typeChips.forEach { typeChip ->
+        typeChip.addEventListener("click", { e ->
+            e.stopPropagation()
+            val type = typeChip.getAttribute("data-type") ?: return@addEventListener
+            
+            // Set the filter
+            activeTypeFilter = type
+            
+            // Update filter chip active state
+            document.querySelectorAll("#publications-filters .filter-chip").asList().forEach { chip ->
+                chip.classList.remove("active")
+                if (chip.getAttribute("data-filter-value") == type) {
+                    chip.classList.add("active")
+                }
+            }
+            
+            applyPublicationFilters()
+        })
+    }
+    
+    // Clear filters button
+    clearFiltersBtn?.addEventListener("click", { clearAllPublicationFilters() })
+    noResultsClearBtn?.addEventListener("click", { clearAllPublicationFilters() })
+}
+
+private fun clearAllPublicationFilters() {
+    activeTypeFilter = "all"
+    
+    // Reset all filter chips
+    document.querySelectorAll("#publications-filters .filter-chip").asList().forEach { chip ->
+        chip.classList.remove("active")
+        if (chip.getAttribute("data-filter-value") == "all") {
+            chip.classList.add("active")
+        }
+    }
+    
+    applyPublicationFilters()
+}
+
+private fun applyPublicationFilters() {
+    val publicationCards = document.querySelectorAll(".publication-card").asList()
+    val clearFiltersBtn = document.getElementById("clear-filters")
+    val noResults = document.getElementById("no-results")
+    val publicationsList = document.querySelector(".publications-list")
+    val filterCount = document.getElementById("filter-count")
+    
+    var visibleCount = 0
+    
+    publicationCards.forEach { card ->
+        val cardType = card.getAttribute("data-type") ?: ""
+        
+        val matchesType = activeTypeFilter == "all" || cardType == activeTypeFilter
+        
+        if (matchesType) {
+            card.classList.remove("hidden")
+            visibleCount++
+        } else {
+            card.classList.add("hidden")
+        }
+    }
+    
+    // Also hide year sections if all publications in that year are hidden
+    document.querySelectorAll(".year-section").asList().forEach { yearSection ->
+        val cardsInSection = yearSection.querySelectorAll(".publication-card").asList()
+        val visibleInSection = cardsInSection.count { !it.classList.contains("hidden") }
+        
+        if (visibleInSection == 0) {
+            yearSection.classList.add("hidden")
+        } else {
+            yearSection.classList.remove("hidden")
+        }
+    }
+    
+    // Update count
+    filterCount?.textContent = "$visibleCount publication${if (visibleCount != 1) "s" else ""}"
+    
+    // Show/hide clear button
+    val hasActiveFilters = activeTypeFilter != "all"
+    (clearFiltersBtn as? HTMLElement)?.style?.display = if (hasActiveFilters) "inline-flex" else "none"
+    
+    // Show/hide no results message
+    (noResults as? HTMLElement)?.style?.display = if (visibleCount == 0) "flex" else "none"
+    (publicationsList as? HTMLElement)?.style?.display = if (visibleCount == 0) "none" else "block"
+}
+
 // Primary navigation items
 private val navItems = listOf(
     Triple("about", "About", "person"),
-    Triple("publications", "Papers", "article"),
+    Triple("publications", "Publications", "article"),
     Triple("presentations", "Presentations", "mic"),
     Triple("teaching", "Teaching", "school"),
     Triple("software", "Software", "code")
