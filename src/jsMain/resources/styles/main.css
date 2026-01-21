@@ -1863,6 +1863,22 @@ a:hover {
 }
 
 /* ===== Links Page ===== */
+.links-section {
+    padding: 24px 0;
+}
+
+.links-section:first-of-type {
+    padding-top: 0;
+}
+
+.links-section .section-title {
+    font-family: 'Calistoga', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 16px;
+    color: var(--md-sys-color-on-surface);
+}
+
 .links-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

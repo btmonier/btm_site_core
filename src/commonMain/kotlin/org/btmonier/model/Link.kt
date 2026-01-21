@@ -11,7 +11,13 @@ data class Link(
 )
 
 @Serializable
-data class Links(
+data class LinkSection(
+    val title: String,
     val items: List<Link>
+)
+
+@Serializable
+data class Links(
+    val sections: List<LinkSection>
 )
 

@@ -46,9 +46,9 @@ object ContentLoader {
         return json.decodeFromString<TeachingList>(text).items
     }
 
-    suspend fun loadLinks(): List<Link> {
+    suspend fun loadLinks(): List<LinkSection> {
         val text = fetchText("content/links.json")
-        return json.decodeFromString<Links>(text).items
+        return json.decodeFromString<Links>(text).sections
     }
 
     suspend fun loadPresentations(): List<Presentation> {
