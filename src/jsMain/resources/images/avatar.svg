@@ -8,22 +8,22 @@
   <g
      transform="translate(-8.3237263,-67.198686)">
     <path
-       style="fill:currentColor;fill-opacity:1;stroke:none"
+       style="fill:#006A6A;fill-opacity:1;stroke:none"
        d="m 21.753786,72.771648 v 0.235703 7.385717 0.235702 h 7.857144 7.857142 7.857142 7.857143 7.857143 7.857143 V 80.393068 73.007351 72.771648 H 61.0395 53.182357 45.325214 37.468072 29.61093 Z" />
     <path
-       style="fill:currentColor;fill-opacity:1;stroke:none"
+       style="fill:#006A6A;fill-opacity:1;stroke:none"
        d="m 13.896643,88.485934 v 0.235704 7.38571 0.23573 h 7.857143 7.857144 v -0.23573 -7.38571 -0.235704 h -7.857144 z" />
     <path
-       style="fill:currentColor;fill-opacity:1;stroke:none"
+       style="fill:#006A6A;fill-opacity:1;stroke:none"
        d="m 37.468072,88.485934 v 0.235704 7.38571 0.23573 h 7.857142 7.857143 7.857143 7.857143 v -0.23573 -7.38571 -0.235704 H 61.0395 53.182357 45.325214 Z" />
     <path
-       style="fill:currentColor;fill-opacity:1;stroke:none"
+       style="fill:#006A6A;fill-opacity:1;stroke:none"
        d="m 13.896643,104.20022 v 0.2357 7.38572 0.23569 h 7.857143 7.857144 7.857142 7.857142 v -0.23569 -7.38572 -0.2357 H 37.468072 29.61093 21.753786 Z" />
     <path
-       style="fill:currentColor;fill-opacity:1;stroke:none"
+       style="fill:#006A6A;fill-opacity:1;stroke:none"
        d="m 53.182357,104.20022 v 0.2357 7.38572 0.23569 h 7.857143 7.857143 v -0.23569 -7.38572 -0.2357 H 61.0395 Z" />
     <path
-       style="fill:currentColor;fill-opacity:1;stroke:none"
+       style="fill:#006A6A;fill-opacity:1;stroke:none"
        d="m 13.896643,119.91449 v 0.23568 7.3857 0.23569 h 7.857143 7.857144 7.857142 7.857142 7.857143 7.857143 v -0.23569 -7.3857 -0.23568 H 53.182357 45.325214 37.468072 29.61093 21.753786 Z" />
   </g>
 </svg>
