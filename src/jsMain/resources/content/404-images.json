@@ -1,18 +1,19 @@
 ﻿{
-    "images":  [
-                   "bloodbeat.png",
-                   "city_of_the_living_dead.png",
-                   "darmok.png",
-                   "django.png",
-                   "dreamstalker.png",
-                   "five_element.png",
-                   "freddy_shades.png",
-                   "godzilla_dropkick.png",
-                   "halloween_3.png",
-                   "iron_man.png",
-                   "michael.png",
-                   "motion_tracker.png",
-                   "possession.png",
-                   "total_recall.png"
-               ]
+  "images": [
+    "bloodbeat.png",
+    "city_of_the_living_dead.png",
+    "darmok.png",
+    "django.png",
+    "dreamstalker.png",
+    "five_element.png",
+    "freddy_shades.png",
+    "godzilla_dropkick.png",
+    "halloween_3.png",
+    "iron_man.png",
+    "michael.png",
+    "motion_tracker.png",
+    "possession.png",
+    "total_recall.png"
+  ]
 }
+
