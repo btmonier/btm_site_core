@@ -31,6 +31,19 @@
   ],
   "experience": [
     {
+      "position": "Research Associate",
+      "institution": "Cornell University",
+      "location": "Ithaca, New York",
+      "period": "2023-Present",
+      "advisor": "Edward Buckler",
+      "highlights": [
+        "Continued work with research institutions across African, Caribbean, Latin, and North American countries to develop cloud computing infrastructure and breeding pipelines leveraging gene activity predictors for sorghum, cowpea, cassava, rice, and maize.",
+        "Maintain TASSEL - an open-source bioinformatics software platform for analyzing and visualizing genotypic and phenotypic diversity, with a primary focus on association mapping and population genetics in plants.",
+        "Contributed to version 2 of the practical haplotype graph - a pangenomics framework for species with diverse breeding populations.",
+        "Contributed to MLImpute - an imputation approach leveraging pangenomics and machine-learning-based path finding."
+      ]
+    },
+    {
       "position": "Postdoctoral Researcher",
       "institution": "Cornell University",
       "location": "Ithaca, New York",
