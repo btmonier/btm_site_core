@@ -424,8 +424,6 @@ This document provides a summary of each JSON data file used in the personal sit
 3. Use appropriate tags from existing entries or add new ones
 
 ### To update citation metrics:
-1. Open `scholar.json`
-2. Update the metric values
-3. Update `lastUpdated` to the current date (format: `YYYYMMDD`)
-4. Add new year entry to `citationsByYear` if needed
+1. Preferred: save your Google Scholar profile as HTML to Desktop or Downloads (filename must contain `Brandon Monier` and `Google Scholar`), then run `pixi run metrics` (see `scripts/scrape_gs_metrics.R`).
+2. Alternatively, edit `scholar.json` by hand: update metric values, set `lastUpdated` to `YYYYMMDD`, and extend `citationsByYear` if needed.
 

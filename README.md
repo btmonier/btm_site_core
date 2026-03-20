@@ -36,11 +36,18 @@ My personal profile and CV generator built using [Kotlin Mutliplatform](https://
 
 ### Update Scholar metrics
 
-```bash
-# Initialize virtual environment
-pixi install
+Since Google _loves_ to block automated requests and provides no publically available REST API to return these crucial metrics,
+An annoying intermediate step will have to be manually saving a local copy of the HTML from the browser and scraping the 
+information from the saved file. I currently search for a given file ID (includes my name and the "Google Scholar" keywords) 
+in either `Downloads` or `Desktop` of my local machine. Yes, this is incredibly hacky and not robust at all... Once that
+has been done, I run the following commands:
 
-# Update existing `scholar.json` data
+```bash
+# Initialize if on fresh machine
+# pixi install
+
+# Parse saved HTML and write `scholar.json`
 pixi run metrics
 ```
+
 

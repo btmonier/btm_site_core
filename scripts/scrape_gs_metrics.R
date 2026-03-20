@@ -1,10 +1,9 @@
 #!/usr/bin/env Rscript
-## Google Scholar Metrics Scraper
-## Fetches citation metrics and outputs to JSON for the personal site
+## Google Scholar metrics from a locally saved profile HTML (browser Save As)
+## Writes JSON for the personal site
 
 # ---- LOAD PACKAGES (suppress startup messages) ----
 suppressPackageStartupMessages({
-    library(scholar)
     library(jsonlite)
     library(dplyr)
     library(rvest)
@@ -12,9 +11,8 @@ suppressPackageStartupMessages({
 
 # ---- LOGGING ----
 
-# Log levels
 LOG_LEVELS <- c(DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4)
-LOG_LEVEL  <- LOG_LEVELS["INFO"]  # Set minimum log level
+LOG_LEVEL  <- LOG_LEVELS["INFO"]
 
 log_msg <- function(level, msg, ...) {
     if (LOG_LEVELS[level] >= LOG_LEVEL) {
@@ -31,117 +29,186 @@ log_error <- function(msg, ...) log_msg("ERROR", msg, ...)
 
 # ---- HELPERS ----
 
-#' Scrape "Since [year]" metrics directly from Google Scholar profile page
-#' The scholar package doesn't provide these, so we scrape them ourselves
-scrape_since_metrics <- function(scholar_id) {
-    url <- paste0("https://scholar.google.com/citations?user=", scholar_id, "&hl=en")
-    log_debug("Scraping URL: %s", url)
-    
-    tryCatch({
-        page <- read_html(url)
-        
-        # The stats table has cells in order:
-        # Row 1: "Citations", all-time value, since-year value
-        # Row 2: "h-index", all-time value, since-year value  
-        # Row 3: "i10-index", all-time value, since-year value
-        stats_cells <- page |> 
-            html_nodes("#gsc_rsb_st td.gsc_rsb_std") |>
-            html_text()
-        
-        if (length(stats_cells) >= 6) {
-            result <- list(
-                cites_since = as.integer(stats_cells[2]),
-                h_since     = as.integer(stats_cells[4]),
-                i10_since   = as.integer(stats_cells[6])
-            )
-            log_debug("Parsed 'since' metrics: cites=%d, h=%d, i10=%d", 
-                      result$cites_since, result$h_since, result$i10_since)
-            return(result)
+#' Find newest matching saved Google Scholar HTML under Desktop / Downloads.
+#' Filename must contain both name phrase and "Google Scholar" (case-insensitive).
+find_saved_scholar_html <- function(
+        search_dirs = path.expand(c("~/Desktop", "~/Downloads")),
+        name_kw = "Brandon Monier",
+        scholar_kw = "Google Scholar") {
+    search_dirs <- search_dirs[dir.exists(search_dirs)]
+    if (length(search_dirs) == 0) {
+        log_error("Neither ~/Desktop nor ~/Downloads exists or is reachable")
+        return(NA_character_)
+    }
+
+    html_files <- unlist(lapply(search_dirs, function(d) {
+        list.files(d, pattern = "\\.html?$", full.names = TRUE, ignore.case = TRUE)
+    }), use.names = FALSE)
+
+    html_files <- html_files[file.exists(html_files)]
+    html_files <- html_files[!file.info(html_files)$isdir]
+    if (length(html_files) == 0) {
+        log_error("No .html files in Desktop or Downloads")
+        return(NA_character_)
+    }
+
+    name_kw_l <- tolower(name_kw)
+    scholar_kw_l <- tolower(scholar_kw)
+    hits <- html_files[vapply(html_files, function(f) {
+        b <- tolower(basename(f))
+        grepl(name_kw_l, b, fixed = TRUE) && grepl(scholar_kw_l, b, fixed = TRUE)
+    }, logical(1))]
+
+    if (length(hits) == 0) {
+        log_error(
+            "No saved Scholar HTML found. Save your profile (e.g. %s) under Desktop or Downloads.",
+            paste0("_", name_kw, "_ - _", scholar_kw, "_.html")
+        )
+        return(NA_character_)
+    }
+
+    if (length(hits) > 1) {
+        mt <- file.mtime(hits)
+        chosen <- hits[which.max(mt)]
+        log_info("Multiple matches (%d); using newest by mtime: %s", length(hits), chosen)
+        return(chosen)
+    }
+    hits[[1]]
+}
+
+#' Parse sidebar stats: all-time and "since" citations, h-index, i10-index
+parse_profile_stats <- function(page) {
+    stats_cells <- page |>
+        html_nodes("#gsc_rsb_st td.gsc_rsb_std") |>
+        html_text()
+
+    if (length(stats_cells) < 6) {
+        log_warn("Expected 6 stat cells in #gsc_rsb_st, got %d", length(stats_cells))
+        return(list(
+            total_cites = NA_integer_, h_index = NA_integer_, i10_index = NA_integer_,
+            cites_since = NA_integer_, h_since = NA_integer_, i10_since = NA_integer_
+        ))
+    }
+
+    list(
+        total_cites = as.integer(stats_cells[[1]]),
+        cites_since = as.integer(stats_cells[[2]]),
+        h_index     = as.integer(stats_cells[[3]]),
+        h_since     = as.integer(stats_cells[[4]]),
+        i10_index   = as.integer(stats_cells[[5]]),
+        i10_since   = as.integer(stats_cells[[6]])
+    )
+}
+
+#' Citation counts by year from the bar chart (same logic as scholar::get_citation_history)
+parse_citation_history <- function(page) {
+    years <- page |>
+        html_nodes(xpath = "//*/span[@class='gsc_g_t']") |>
+        html_text() |>
+        as.numeric()
+    vals <- page |>
+        html_nodes(xpath = "//*/span[@class='gsc_g_al']") |>
+        html_text() |>
+        as.numeric()
+
+    if (length(years) == 0) {
+        return(data.frame(year = integer(), cites = integer()))
+    }
+
+    if (length(years) > length(vals)) {
+        style_tags <- page |>
+            html_nodes(css = ".gsc_g_a") |>
+            html_attr("style")
+        zm <- regmatches(style_tags, regexec("z-index:([0-9]+)", style_tags))
+        zindices <- vapply(zm, function(x) {
+            if (length(x) >= 2) as.integer(x[[2]]) else NA_integer_
+        }, integer(1))
+        if (length(zindices) == length(vals) && all(!is.na(zindices))) {
+            allvals <- integer(length(years))
+            allvals[zindices] <- vals
+            vals <- rev(allvals)
         } else {
-            log_warn("Could not parse stats table - expected 6 cells, got %d", length(stats_cells))
-            return(list(cites_since = NA, h_since = NA, i10_since = NA))
+            log_warn("Could not align citation bars with years; using partial data")
         }
-    }, error = function(e) {
-        log_error("Failed to scrape Google Scholar: %s", conditionMessage(e))
-        return(list(cites_since = NA, h_since = NA, i10_since = NA))
-    })
+    }
+
+    data.frame(year = as.integer(years), cites = as.integer(vals))
 }
 
 # ---- CONFIG ----
-scholar_id <- "buYGhlYAAAAJ"
-json_out   <- "src/jsMain/resources/content/scholar.json"
+json_out <- "src/jsMain/resources/content/scholar.json"
 
-log_info("Starting Google Scholar metrics scrape")
-log_info("Scholar ID: %s", scholar_id)
-log_info("Output file: %s", json_out)
+log_info("Starting Google Scholar metrics extraction from saved HTML")
 
-# ---- FETCH DATA FROM GOOGLE SCHOLAR ----
-
-log_info("Fetching profile data...")
-prof <- get_profile(scholar_id)
-log_info("Profile loaded: %s (%s)", prof$name, prof$affiliation)
-
-log_info("Fetching citation history...")
-hist <- get_citation_history(scholar_id)
-log_info("Citation history: %d years of data", nrow(hist))
-
-# ---- DERIVE METRICS ----
-
-# All-time metrics from scholar package
-total_cites_all <- prof$total_cites
-h_all           <- prof$h_index
-i10_all         <- prof$i10_index
-
-log_info("All-time metrics: citations=%d, h-index=%d, i10-index=%d", 
-         total_cites_all, h_all, i10_all)
-
-# "Since [year]" metrics by scraping Google Scholar directly
-log_info("Scraping 'Since' metrics from Google Scholar...")
-since_metrics <- scrape_since_metrics(scholar_id)
-
-total_cites_since <- since_metrics$cites_since
-h_since           <- since_metrics$h_since
-i10_since         <- since_metrics$i10_since
-
-if (any(is.na(c(total_cites_since, h_since, i10_since)))) {
-    log_warn("Some 'since' metrics are NA - check Google Scholar accessibility")
-} else {
-    log_info("Since metrics: citations=%d, h-index=%d, i10-index=%d",
-             total_cites_since, h_since, i10_since)
+html_path <- find_saved_scholar_html()
+if (is.na(html_path) || !nzchar(html_path)) {
+    quit(status = 1)
 }
 
-# ---- CITATIONS BY YEAR ----
+log_info("Using saved page: %s", html_path)
+
+page <- tryCatch(
+    read_html(html_path),
+    error = function(e) {
+        log_error("Failed to read HTML: %s", conditionMessage(e))
+        NULL
+    }
+)
+if (is.null(page)) {
+    quit(status = 1)
+}
+
+# ---- PARSE ----
+
+stats <- parse_profile_stats(page)
+log_info(
+    "All-time metrics: citations=%s, h-index=%s, i10-index=%s",
+    stats$total_cites, stats$h_index, stats$i10_index
+)
+log_info(
+    "Since-window metrics: citations=%s, h-index=%s, i10-index=%s",
+    stats$cites_since, stats$h_since, stats$i10_since
+)
+
+if (any(is.na(unlist(stats)))) {
+    log_warn("Some metrics are NA — saved page may be incomplete or layout changed")
+}
+
+hist <- parse_citation_history(page)
+log_info("Citation history: %d years of data", nrow(hist))
 
 citations_by_year <- hist |>
     arrange(year) |>
-    transmute(
-        year  = year,
-        count = cites
-    )
+    transmute(year = year, count = cites)
 
-log_info("Citations by year: %d to %d", 
-         min(citations_by_year$year), max(citations_by_year$year))
+if (nrow(citations_by_year) > 0) {
+    log_info(
+        "Citations by year: %d to %d",
+        min(citations_by_year$year), max(citations_by_year$year)
+    )
+} else {
+    log_warn("No citations-by-year chart found in saved HTML")
+}
 
 # ---- BUILD OUTPUT ----
 
 last_updated <- format(Sys.Date(), "%Y%m%d")
 log_info("Last updated timestamp: %s", last_updated)
 
-# NOTE: The 'since2020' key uses Google Scholar's "last 5 years" metrics,
-# which are based on citations RECEIVED in that period (not papers published).
+# JSON keys since2020 match site schema; values are Scholar's rolling window column
 metrics_list <- list(
     lastUpdated = last_updated,
     citations   = list(
-        all       = total_cites_all,
-        since2020 = total_cites_since
+        all       = stats$total_cites,
+        since2020 = stats$cites_since
     ),
     hIndex = list(
-        all       = h_all,
-        since2020 = h_since
+        all       = stats$h_index,
+        since2020 = stats$h_since
     ),
     i10Index = list(
-        all       = i10_all,
-        since2020 = i10_since
+        all       = stats$i10_index,
+        since2020 = stats$i10_since
     ),
     citationsByYear = lapply(seq_len(nrow(citations_by_year)), function(i) {
         list(
@@ -155,9 +222,6 @@ metrics_list <- list(
 
 json_text <- toJSON(metrics_list, pretty = TRUE, auto_unbox = TRUE)
 
-# Compact citationsByYear entries to single lines
-# Matches: {\n      "year": YYYY,\n      "count": N\n    }
-# Replaces with: {"year": YYYY, "count": N}
 json_text <- gsub(
     '\\{\n\\s+"year":\\s*(\\d+),\n\\s+"count":\\s*(\\d+)\n\\s+\\}',
     '{ "year": \\1, "count": \\2 }',
