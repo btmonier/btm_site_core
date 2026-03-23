@@ -1,26 +1,27 @@
 {
   "lastUpdated": "20260323",
+  "sinceYear": 2021,
   "citations": {
-    "all": 980,
-    "since2020": 888
+    "all": 983,
+    "since": 891
   },
   "hIndex": {
     "all": 10,
-    "since2020": 10
+    "since": 10
   },
   "i10Index": {
     "all": 11,
-    "since2020": 10
+    "since": 10
   },
   "citationsByYear": [
     { "year": 2018, "count": 13 },
     { "year": 2019, "count": 26 },
     { "year": 2020, "count": 39 },
     { "year": 2021, "count": 94 },
-    { "year": 2022, "count": 127 },
+    { "year": 2022, "count": 128 },
     { "year": 2023, "count": 174 },
     { "year": 2024, "count": 227 },
-    { "year": 2025, "count": 222 },
-    { "year": 2026, "count": 42 }
+    { "year": 2025, "count": 221 },
+    { "year": 2026, "count": 45 }
   ]
 }

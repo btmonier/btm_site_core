@@ -70,24 +70,24 @@ fun createPublicationsPage(publications: List<Publication>, scholarStats: Schola
                             tr {
                                 th { +"Metric" }
                                 th { +"All Time" }
-                                th { +"Since 2020" }
+                                th { +"Since ${scholarStats.sinceYear}" }
                             }
                         }
                         tbody {
                             tr {
                                 td { +"Citations" }
                                 td("stat-value") { +scholarStats.citations.all.toString() }
-                                td("stat-value") { +scholarStats.citations.since2020.toString() }
+                                td("stat-value") { +scholarStats.citations.since.toString() }
                             }
                             tr {
                                 td { +"h-index" }
                                 td("stat-value") { +scholarStats.hIndex.all.toString() }
-                                td("stat-value") { +scholarStats.hIndex.since2020.toString() }
+                                td("stat-value") { +scholarStats.hIndex.since.toString() }
                             }
                             tr {
                                 td { +"i10-index" }
                                 td("stat-value") { +scholarStats.i10Index.all.toString() }
-                                td("stat-value") { +scholarStats.i10Index.since2020.toString() }
+                                td("stat-value") { +scholarStats.i10Index.since.toString() }
                             }
                         }
                     }

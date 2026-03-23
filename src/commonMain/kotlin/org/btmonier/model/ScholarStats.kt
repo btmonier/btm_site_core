@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ScholarStats(
     val lastUpdated: String,
+    /** Start year of Google Scholar’s rolling “since” column (typically current calendar year − 5). */
+    val sinceYear: Int,
     val citations: StatPair,
     val hIndex: StatPair,
     val i10Index: StatPair,
@@ -14,7 +16,7 @@ data class ScholarStats(
 @Serializable
 data class StatPair(
     val all: Int,
-    val since2020: Int
+    val since: Int
 )
 
 @Serializable

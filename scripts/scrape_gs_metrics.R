@@ -100,6 +100,26 @@ parse_profile_stats <- function(page) {
     )
 }
 
+#' Rolling-window start year from the "Since YYYY" table header (Scholar uses a 5-year window).
+parse_since_year <- function(page) {
+    th_texts <- page |>
+        html_nodes("th.gsc_rsb_sth") |>
+        html_text(trim = TRUE)
+    since_label <- th_texts[grepl("^Since ", th_texts)]
+    if (length(since_label) == 0) {
+        y <- as.integer(format(Sys.Date(), "%Y")) - 5L
+        log_warn("No 'Since YYYY' header found; using current year - 5 = %d", y)
+        return(y)
+    }
+    m <- regmatches(since_label[[1]], regexec("^Since (\\d{4})$", since_label[[1]]))
+    if (length(m[[1]]) >= 2) {
+        return(as.integer(m[[1]][2]))
+    }
+    y <- as.integer(format(Sys.Date(), "%Y")) - 5L
+    log_warn("Could not parse year from '%s'; using current year - 5 = %d", since_label[[1]], y)
+    y
+}
+
 #' Citation counts by year from the bar chart (same logic as scholar::get_citation_history)
 parse_citation_history <- function(page) {
     years <- page |>
@@ -161,6 +181,8 @@ if (is.null(page)) {
 # ---- PARSE ----
 
 stats <- parse_profile_stats(page)
+since_year <- parse_since_year(page)
+log_info("Scholar 'since' window start year: %d", since_year)
 log_info(
     "All-time metrics: citations=%s, h-index=%s, i10-index=%s",
     stats$total_cites, stats$h_index, stats$i10_index
@@ -195,20 +217,21 @@ if (nrow(citations_by_year) > 0) {
 last_updated <- format(Sys.Date(), "%Y%m%d")
 log_info("Last updated timestamp: %s", last_updated)
 
-# JSON keys since2020 match site schema; values are Scholar's rolling window column
+# sinceYear + "since" values mirror Scholar's rolling window column (header "Since YYYY")
 metrics_list <- list(
     lastUpdated = last_updated,
+    sinceYear   = since_year,
     citations   = list(
-        all       = stats$total_cites,
-        since2020 = stats$cites_since
+        all   = stats$total_cites,
+        since = stats$cites_since
     ),
     hIndex = list(
-        all       = stats$h_index,
-        since2020 = stats$h_since
+        all   = stats$h_index,
+        since = stats$h_since
     ),
     i10Index = list(
-        all       = stats$i10_index,
-        since2020 = stats$i10_since
+        all   = stats$i10_index,
+        since = stats$i10_since
     ),
     citationsByYear = lapply(seq_len(nrow(citations_by_year)), function(i) {
         list(

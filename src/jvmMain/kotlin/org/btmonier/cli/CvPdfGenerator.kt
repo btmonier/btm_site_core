@@ -710,17 +710,17 @@ class CvPdfGenerator(private val dataDir: String) {
         allHeader.paddingBottom = 5f
         table.addCell(allHeader)
 
-        val since2020Header = PdfPCell(Phrase("Since 2020", tableHeaderFont))
-        since2020Header.backgroundColor = headerBg
-        since2020Header.horizontalAlignment = Element.ALIGN_CENTER
-        since2020Header.paddingTop = 5f
-        since2020Header.paddingBottom = 5f
-        table.addCell(since2020Header)
+        val sinceWindowHeader = PdfPCell(Phrase("Since ${stats.sinceYear}", tableHeaderFont))
+        sinceWindowHeader.backgroundColor = headerBg
+        sinceWindowHeader.horizontalAlignment = Element.ALIGN_CENTER
+        sinceWindowHeader.paddingTop = 5f
+        sinceWindowHeader.paddingBottom = 5f
+        table.addCell(sinceWindowHeader)
 
         // Data rows
-        addMetricRow(table, "Citations", stats.citations.all.toString(), stats.citations.since2020.toString())
-        addMetricRow(table, "h-index", stats.hIndex.all.toString(), stats.hIndex.since2020.toString())
-        addMetricRow(table, "i10-index", stats.i10Index.all.toString(), stats.i10Index.since2020.toString())
+        addMetricRow(table, "Citations", stats.citations.all.toString(), stats.citations.since.toString())
+        addMetricRow(table, "h-index", stats.hIndex.all.toString(), stats.hIndex.since.toString())
+        addMetricRow(table, "i10-index", stats.i10Index.all.toString(), stats.i10Index.since.toString())
 
         document.add(table)
         
@@ -731,7 +731,7 @@ class CvPdfGenerator(private val dataDir: String) {
         document.add(lastUpdated)
     }
 
-    private fun addMetricRow(table: PdfPTable, metric: String, all: String, since2020: String) {
+    private fun addMetricRow(table: PdfPTable, metric: String, all: String, since: String) {
         val metricCell = PdfPCell(Phrase(metric, tableBoldFont))
         metricCell.horizontalAlignment = Element.ALIGN_LEFT
         metricCell.paddingTop = 4f
@@ -747,12 +747,12 @@ class CvPdfGenerator(private val dataDir: String) {
         allCell.borderColor = tableBorderColor
         table.addCell(allCell)
 
-        val since2020Cell = PdfPCell(Phrase(since2020, tableBodyFont))
-        since2020Cell.horizontalAlignment = Element.ALIGN_CENTER
-        since2020Cell.paddingTop = 4f
-        since2020Cell.paddingBottom = 4f
-        since2020Cell.borderColor = tableBorderColor
-        table.addCell(since2020Cell)
+        val sinceCell = PdfPCell(Phrase(since, tableBodyFont))
+        sinceCell.horizontalAlignment = Element.ALIGN_CENTER
+        sinceCell.paddingTop = 4f
+        sinceCell.paddingBottom = 4f
+        sinceCell.borderColor = tableBorderColor
+        table.addCell(sinceCell)
     }
 
     private fun formatDate(dateStr: String): String {
