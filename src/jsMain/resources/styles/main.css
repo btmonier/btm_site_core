@@ -2117,60 +2117,51 @@ a:hover {
     gap: 24px;
 }
 
-.footer-link {
+.footer-left {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--md-sys-color-on-surface-variant);
-    font: var(--md-sys-typescale-body-medium);
-    text-decoration: none;
-    transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
-    padding: 2px 2px;
-    border-radius: var(--md-sys-shape-corner-small);
 }
 
-.footer-link:hover {
-    color: var(--md-sys-color-primary);
-    background-color: var(--md-sys-color-primary-container);
-    text-decoration: none;
-}
-
-.footer-link .fa-github,
-.footer-link .fa-orcid {
-    font-size: 20px;
-}
-
-.footer-left {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.footer-avatar {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    filter: brightness(0) invert(0.11);
 }
 
 .footer-copyright {
-    font: var(--md-sys-typescale-body-small);
     color: var(--md-sys-color-on-surface-variant);
-}
-
-.footer-made-with {
     font: var(--md-sys-typescale-body-small);
-    color: var(--md-sys-color-on-surface-variant);
-}
-
-.footer-text-link {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
-    transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
-}
-
-.footer-text-link:hover {
-    color: var(--md-sys-color-on-primary-container);
-    text-decoration: underline;
 }
 
 .footer-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+}
+
+.footer-version {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.footer-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
+    border-radius: var(--md-sys-shape-corner-small);
+}
+
+.footer-github:hover {
+    background-color: var(--md-sys-color-primary-container);
 }
 
 /* ===== Responsive ===== */
@@ -2271,5 +2262,9 @@ a:hover {
     .page-title {
         font-size: 1.75rem;
         line-height: 2.25rem;
+    }
+
+    .site-footer {
+        padding: 10px 16px;
     }
 }

@@ -267,26 +267,22 @@ private fun createBottomNav(): HTMLElement {
 private fun createFooter(): HTMLElement {
     return document.create.footer("site-footer") {
         id = "site-footer"
+
         div("footer-content") {
             div("footer-left") {
-                div("footer-copyright") { +"Copyright © Brandon Monier 2025-2026" }
-                div("footer-made-with") {
-                    +"Made with "
-                    a(href = "https://github.com/btmonier/btm_site_core", target = "_blank", classes = "footer-text-link") {
-                        +"spite"
-                    }
-                    +" and "
-                    a(href = "https://www.jetbrains.com/kotlin-multiplatform/", target = "_blank", classes = "footer-text-link") {
-                        +"Kotlin/JS"
-                    }
+                img(src = "images/avatar.svg", alt = "Brandon Monier", classes = "footer-avatar") {}
+                span("footer-copyright") {
+                    +"© ${kotlin.js.Date().getFullYear()} Brandon Monier"
                 }
             }
+
             div("footer-right") {
-                a(href = "https://github.com/btmonier", target = "_blank", classes = "footer-link") {
-                    i(classes = "fa-brands fa-github") {}
+                span("footer-version") {
+                    +"v${BuildConfig.VERSION}"
                 }
-                a(href = "https://orcid.org/0000-0001-6797-1221", target = "_blank", classes = "footer-link") {
-                    i(classes = "fa-brands fa-orcid") {}
+                a(href = "https://github.com/btmonier/btm_site_core", target = "_blank", classes = "footer-github") {
+                    title = "View source on GitHub"
+                    i(classes = "fa-brands fa-github") {}
                 }
             }
         }
