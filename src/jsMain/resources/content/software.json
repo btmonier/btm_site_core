@@ -1,6 +1,13 @@
 {
   "items": [
     {
+      "name": "rTASSEL Insights",
+      "description": "GitHub Insights dashboard for the rTASSEL repository. Leverages the GitHub API to collect and visualize traffic and repository statistics.",
+      "languages": ["R", "TypeScript"],
+      "repoUrl": "https://github.com/btmonier/rtassel_insights",
+      "tags": ["rTASSEL", "Dashboard", "GitHub API", "Visualization"]
+    },
+    {
       "name": "clir",
       "description": "Command-line interface builder in pure R and the S7 class system.",
       "languages": ["R"],
@@ -10,7 +17,7 @@
     {
       "name": "MLImpute",
       "description": "Pangenome imputation using machine learning.",
-      "languages": ["JavaScript", "Rust", "Python", "Kotlin"],
+      "languages": ["TypeScript", "Rust", "Python", "Kotlin"],
       "repoUrl": "https://github.com/maize-genetics/MLImpute",
       "tags": ["Imputation", "Machine Learning"]
     },
@@ -24,7 +31,7 @@
     {
       "name": "reelGene",
       "description": "Machine learning and evolutionary conservation pipeline to identify misannotated or nonfunctional gene models.",
-      "languages": ["Python", "R", "Kotlin", "Perl"],
+      "languages": ["Python", "R", "Kotlin"],
       "repoUrl": "https://bitbucket.org/bucklerlab/p_reelgene",
       "tags": ["Gene Annotation", "Machine Learning", "Comparative Genomics"]
     },

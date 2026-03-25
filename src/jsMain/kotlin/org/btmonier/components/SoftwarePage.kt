@@ -3,29 +3,19 @@ package org.btmonier.components
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.browser.document
+import org.btmonier.LanguageIconPaths
 import org.btmonier.model.Software
 import org.w3c.dom.HTMLElement
 
 /**
- * Maps programming language names to MDI (Pictogrammers) icon classes
+ * MDI (Pictogrammers) classes for languages without a shared SVG in [LanguageIconPaths].
  * See: https://pictogrammers.com/library/mdi/
  */
-private fun getLanguageIcon(language: String): String {
+private fun getLanguageIconMdiFallback(language: String): String {
     return when (language.lowercase()) {
-        "r" -> "mdi mdi-language-r"
-        "shiny" -> "mdi mdi-monitor-shimmer"
-        "kotlin" -> "mdi mdi-language-kotlin"
-        "perl" -> "mdi mdi-script-text"
-        "python" -> "mdi mdi-language-python"
-        "javascript", "js" -> "mdi mdi-language-javascript"
-        "java" -> "mdi mdi-language-java"
-        "c++", "cpp" -> "mdi mdi-language-cpp"
-        "rust" -> "mdi mdi-language-rust"
         "go" -> "mdi mdi-language-go"
         "swift" -> "mdi mdi-language-swift"
-        "html" -> "mdi mdi-language-html5"
-        "css" -> "mdi mdi-language-css3"
-        "sql" -> "mdi mdi-database"
+        "js" -> "mdi mdi-language-javascript"
         else -> "mdi mdi-code-tags"
     }
 }
@@ -124,7 +114,16 @@ fun createSoftwarePage(software: List<Software>): HTMLElement {
                                 sw.languages.forEach { lang ->
                                     span("software-lang") {
                                         title = lang
-                                        i(classes = getLanguageIcon(lang)) {}
+                                        val svgPath = LanguageIconPaths.webPath(lang)
+                                        if (svgPath != null) {
+                                            img(
+                                                src = svgPath,
+                                                alt = lang,
+                                                classes = "software-lang-img",
+                                            )
+                                        } else {
+                                            i(classes = getLanguageIconMdiFallback(lang)) {}
+                                        }
                                     }
                                 }
                             }

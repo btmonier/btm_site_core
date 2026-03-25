@@ -1752,7 +1752,7 @@ a:hover {
     width: 24px;
     height: 24px;
     background-color: var(--md-sys-color-tertiary-container);
-    color: #3f4948;
+    color: #505050;
     border-radius: var(--md-sys-shape-corner-small);
     display: flex;
     align-items: center;
@@ -1763,6 +1763,12 @@ a:hover {
 
 .software-lang .mdi {
     font-size: 16px;
+}
+
+.software-lang-img {
+    width: 16px;
+    height: 16px;
+    display: block;
 }
 
 .software-description {

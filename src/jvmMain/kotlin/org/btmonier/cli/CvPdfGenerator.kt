@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import org.apache.batik.transcoder.TranscoderInput
 import org.apache.batik.transcoder.TranscoderOutput
 import org.apache.batik.transcoder.image.PNGTranscoder
+import org.btmonier.LanguageIconPaths
 import org.btmonier.model.*
 import java.awt.Color
 import java.io.ByteArrayOutputStream
@@ -25,7 +26,8 @@ class CvPdfGenerator(private val dataDir: String) {
     private val grayBg = Color(230, 230, 230) // Light gray background
     private val accentLineColor = Color(128, 0, 32) // Maroon accent lines
     private val tableBorderColor = Color(200, 200, 200)
-    private val swIconColor = Color(80, 80, 80) // Software icons
+    /** Dark grey for all embedded SVG icons (PDF). */
+    private val iconGrey = Color(80, 80, 80)
 
     // Load Roboto Serif from resources
     private val robotoSerifBase: BaseFont = try {
@@ -60,9 +62,15 @@ class CvPdfGenerator(private val dataDir: String) {
             var svgContent = svgStream.bufferedReader().readText()
             if (color != null) {
                 val hexColor = String.format("#%02x%02x%02x", color.red, color.green, color.blue)
-                // Replace fill colors in SVG
                 svgContent = svgContent.replace(Regex("fill=\"[^\"]*\""), "fill=\"$hexColor\"")
-                // Add fill if not present
+                // Strip fill from style="..." so Batik does not keep a darker color
+                svgContent = svgContent.replace(Regex("style=\"([^\"]*)\"")) { m ->
+                    val inner = m.groupValues[1]
+                        .replace(Regex("fill:[^;]+;?"), "")
+                        .replace(Regex(";{2,}"), ";")
+                        .trim(' ', ';')
+                    if (inner.isEmpty()) "" else " style=\"$inner\""
+                }
                 if (!svgContent.contains("fill=")) {
                     svgContent = svgContent.replace("<path", "<path fill=\"$hexColor\"")
                     svgContent = svgContent.replace("<circle", "<circle fill=\"$hexColor\"")
@@ -297,7 +305,7 @@ class CvPdfGenerator(private val dataDir: String) {
         iconCell.verticalAlignment = Element.ALIGN_TOP
         
         // Load SVG icon
-        val icon = loadSvgIcon(iconPath, 10f, maroonColor)
+        val icon = loadSvgIcon(iconPath, 10f, iconGrey)
         if (icon != null) {
             iconCell.addElement(icon)
         }
@@ -420,23 +428,6 @@ class CvPdfGenerator(private val dataDir: String) {
         }
     }
 
-    // Language to SVG icon path mapping
-    private val languageIcons = mapOf(
-        "R" to "/icons/language-r.svg",
-        "Python" to "/icons/language-python.svg",
-        "Kotlin" to "/icons/language-kotlin.svg",
-        "Java" to "/icons/language-java.svg",
-        "JavaScript" to "/icons/language-javascript.svg",
-        "TypeScript" to "/icons/language-typescript.svg",
-        "C++" to "/icons/language-cpp.svg",
-        "HTML" to "/icons/language-html5.svg",
-        "Rust" to "/icons/language-rust.svg",
-        "SQL" to "/icons/database.svg",
-        "Shiny" to "/icons/language-shiny.svg",
-        "CSS" to "/icons/language-css3.svg",
-        "Perl" to "/icons/language-perl.svg"
-    )
-
     private fun addSoftware(document: Document, software: List<Software>) {
         addSectionHeader(document, "Software")
 
@@ -448,7 +439,7 @@ class CvPdfGenerator(private val dataDir: String) {
             val titleWidth = robotoSerifBase.getWidthPoint(sw.name, 10f) // bodyBoldFont size
             val iconSize = 10f
             val iconSpacing = 4f // spacing between icons
-            val validIconCount = sw.languages.count { languageIcons.containsKey(it) }
+            val validIconCount = sw.languages.count { LanguageIconPaths.classpathPath(it) != null }
             val iconsWidth = if (validIconCount > 0) {
                 (validIconCount * iconSize) + ((validIconCount - 1) * iconSpacing)
             } else 0f
@@ -513,9 +504,9 @@ class CvPdfGenerator(private val dataDir: String) {
             val iconsParagraph = Paragraph()
             iconsParagraph.alignment = Element.ALIGN_RIGHT
             for (lang in sw.languages) {
-                val iconPath = languageIcons[lang]
+                val iconPath = LanguageIconPaths.classpathPath(lang)
                 if (iconPath != null) {
-                    val icon = loadSvgIcon(iconPath, iconSize, swIconColor)
+                    val icon = loadSvgIcon(iconPath, iconSize, iconGrey)
                     if (icon != null) {
                         val chunk = Chunk(icon, 0f, 0f)
                         iconsParagraph.add(chunk)
@@ -555,9 +546,9 @@ class CvPdfGenerator(private val dataDir: String) {
         legendParagraph.add(Chunk("Languages: ", bodyBoldFont))
         
         usedLanguages.forEachIndexed { index, lang ->
-            val iconPath = languageIcons[lang]
+            val iconPath = LanguageIconPaths.classpathPath(lang)
             if (iconPath != null) {
-                val icon = loadSvgIcon(iconPath, 10f, swIconColor)
+                val icon = loadSvgIcon(iconPath, 10f, iconGrey)
                 if (icon != null) {
                     legendParagraph.add(Chunk(icon, 0f, -1f))
                     legendParagraph.add(Chunk(" $lang", smallFont))
