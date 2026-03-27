@@ -18,9 +18,11 @@ object LanguageIconPaths {
         "HTML" to "icons/language-html5.svg",
         "Rust" to "icons/language-rust.svg",
         "SQL" to "icons/database.svg",
+        "Database" to "icons/database.svg",
         "Shiny" to "icons/language-shiny.svg",
         "CSS" to "icons/language-css3.svg",
         "Perl" to "icons/language-perl.svg",
+        "WASM" to "icons/language-wasm.svg",
     )
 
     /** Lowercase keys so lookups match JSON even if casing or surrounding spaces differ. */
