@@ -3,7 +3,7 @@
     {
       "name": "Programming Languages",
       "icon": "code",
-      "items": ["Bash", "C++", "Java", "JavaScript", "Kotlin", "Lua", "Perl", "Python", "R"]
+      "items": ["Bash", "C++", "Java", "JavaScript", "Kotlin", "Lua", "Perl", "Python", "R", "Rust", "TypeScript"]
     },
     {
       "name": "Web Development & Database Systems",

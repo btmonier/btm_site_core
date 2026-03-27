@@ -91,7 +91,7 @@
     {
       "name": "BRIC",
       "description": "A novel biclustering method for detecting gene regulatory signals (GRSs) within single cells",
-      "languages": ["R"],
+      "languages": ["R", "C++"],
       "repoUrl": "https://github.com/OSU-BMBL/BRIC",
       "tags": ["Single Cell", "Biclustering", "Gene Regulation"]
     },
