@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "20260325",
+  "lastUpdated": "20260327",
   "sinceYear": 2021,
   "citations": {
-    "all": 983,
-    "since": 891
+    "all": 989,
+    "since": 897
   },
   "hIndex": {
     "all": 10,
@@ -22,6 +22,6 @@
     { "year": 2023, "count": 174 },
     { "year": 2024, "count": 227 },
     { "year": 2025, "count": 221 },
-    { "year": 2026, "count": 45 }
+    { "year": 2026, "count": 51 }
   ]
 }
