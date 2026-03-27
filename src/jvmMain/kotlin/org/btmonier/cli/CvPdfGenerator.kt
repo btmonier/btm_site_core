@@ -778,17 +778,23 @@ class CvPdfGenerator(private val dataDir: String) {
     private fun formatCitation(pub: Publication): Phrase {
         val phrase = Phrase()
 
-        val authorStr = pub.authors.joinToString(", ") { author ->
+        val formattedAuthors = pub.authors.map { author ->
             val parts = author.split(" ")
-            if (parts.size >= 2) {
+            val formatted = if (parts.size >= 2) {
                 val last = parts.last()
                 val initials = parts.dropLast(1).map { "${it.first()}." }.joinToString(" ")
                 "$last, $initials"
             } else {
                 author
             }
+            val isSelf = author.equals("Brandon Monier", ignoreCase = true)
+            formatted to isSelf
         }
-        phrase.add(Chunk(authorStr, bodyFont))
+        formattedAuthors.forEachIndexed { index, (name, isSelf) ->
+            val font = if (isSelf) bodyBoldFont else bodyFont
+            phrase.add(Chunk(name, font))
+            if (index < formattedAuthors.lastIndex) phrase.add(Chunk(", ", bodyFont))
+        }
         phrase.add(Chunk(" (${pub.year}). ", bodyFont))
         phrase.add(Chunk(pub.title, bodyFont))
         phrase.add(Chunk(". ", bodyFont))
@@ -853,17 +859,23 @@ class CvPdfGenerator(private val dataDir: String) {
     private fun formatPresentationCitation(pres: Presentation): Phrase {
         val phrase = Phrase()
 
-        val authorStr = pres.authors.joinToString(", ") { author ->
+        val formattedAuthors = pres.authors.map { author ->
             val parts = author.split(" ")
-            if (parts.size >= 2) {
+            val formatted = if (parts.size >= 2) {
                 val last = parts.last()
                 val initials = parts.dropLast(1).map { "${it.first()}." }.joinToString(" ")
                 "$last, $initials"
             } else {
                 author
             }
+            val isSelf = author.equals("Brandon Monier", ignoreCase = true)
+            formatted to isSelf
         }
-        phrase.add(Chunk(authorStr, bodyFont))
+        formattedAuthors.forEachIndexed { index, (name, isSelf) ->
+            val font = if (isSelf) bodyBoldFont else bodyFont
+            phrase.add(Chunk(name, font))
+            if (index < formattedAuthors.lastIndex) phrase.add(Chunk(", ", bodyFont))
+        }
         phrase.add(Chunk(" (${pres.year}). ", bodyFont))
         phrase.add(Chunk(pres.title, bodyFont))
         phrase.add(Chunk(". ", bodyFont))
