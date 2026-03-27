@@ -416,15 +416,94 @@ class CvPdfGenerator(private val dataDir: String) {
         }
     }
 
+    private val leaderDotFont = Font(robotoSerifBase, 9f, Font.NORMAL, Color(160, 160, 160))
+
+    private fun buildLatexLogo(fontSize: Float, font: Font): Phrase {
+        val smallFont = Font(robotoSerifBase, fontSize * 0.75f, font.style, font.color)
+        val phrase = Phrase()
+        phrase.add(Chunk("L", font))
+        val raisedA = Chunk("A", smallFont)
+        raisedA.setTextRise(fontSize * 0.22f)
+        phrase.add(raisedA)
+        phrase.add(Chunk("T", font))
+        val loweredE = Chunk("E", font)
+        loweredE.setTextRise(-fontSize * 0.12f)
+        phrase.add(loweredE)
+        phrase.add(Chunk("X", font))
+        return phrase
+    }
+
+    private fun buildTextWithLatex(text: String, font: Font): Phrase {
+        val phrase = Phrase()
+        var remaining = text
+        while (remaining.isNotEmpty()) {
+            val idx = remaining.indexOf("LaTeX")
+            if (idx == -1) {
+                phrase.add(Chunk(remaining, font))
+                break
+            }
+            if (idx > 0) {
+                phrase.add(Chunk(remaining.substring(0, idx), font))
+            }
+            phrase.add(buildLatexLogo(font.size, font))
+            remaining = remaining.substring(idx + 5)
+        }
+        return phrase
+    }
+
     private fun addSkills(document: Document, skills: SkillsData) {
         addSectionHeader(document, "Skills")
 
+        val pageWidth = PageSize.LETTER.width - 54f - 54f
+        val dotUnit = " ."
+        val dotUnitWidth = robotoSerifBase.getWidthPoint(dotUnit, 9f)
+        val leftColWidth = skills.categories.maxOf { cat ->
+            robotoSerifBase.getWidthPoint(cat.name, 9f)
+        } + dotUnitWidth * 6
+        val rightColWidth = pageWidth - leftColWidth
+
         for (category in skills.categories) {
-            val categoryLine = Paragraph()
-            categoryLine.add(Chunk("${category.name}: ", bodyBoldFont))
-            categoryLine.add(Chunk(category.items.joinToString(", "), bodyFont))
-            categoryLine.spacingAfter = 3f
-            document.add(categoryLine)
+            val itemsText = category.items.joinToString(", ")
+            val labelWidth = robotoSerifBase.getWidthPoint(category.name, 9f)
+            val dotsSpace = leftColWidth - labelWidth - 8f
+            val dotCount = maxOf((dotsSpace / dotUnitWidth).toInt(), 2)
+            val dots = " " + dotUnit.repeat(dotCount) + " "
+
+            val row = PdfPTable(2)
+            row.widthPercentage = 100f
+            row.setTotalWidth(floatArrayOf(leftColWidth, rightColWidth))
+            row.isLockedWidth = true
+            row.setSpacingAfter(15f)
+
+            val leftPhrase = Phrase()
+            leftPhrase.add(Chunk(category.name, bodyBoldFont))
+            leftPhrase.add(Chunk(dots, leaderDotFont))
+
+            val leftCell = PdfPCell()
+            leftCell.border = Rectangle.NO_BORDER
+            leftCell.phrase = leftPhrase
+            leftCell.verticalAlignment = Element.ALIGN_TOP
+            leftCell.paddingBottom = 0f
+            leftCell.paddingLeft = 0f
+            leftCell.paddingRight = 0f
+            leftCell.isNoWrap = true
+            row.addCell(leftCell)
+
+            val rightPara = Paragraph(12f)
+            rightPara.add(buildTextWithLatex(itemsText, bodyFont))
+
+            val rightCell = PdfPCell()
+            rightCell.border = Rectangle.NO_BORDER
+            rightCell.addElement(rightPara)
+            rightCell.horizontalAlignment = Element.ALIGN_LEFT
+            rightCell.verticalAlignment = Element.ALIGN_TOP
+            rightCell.paddingTop = 0f
+            rightCell.paddingBottom = 0f
+            rightCell.paddingLeft = 0f
+            rightCell.paddingRight = 0f
+            row.addCell(rightCell)
+
+            document.add(row)
         }
     }
 
