@@ -1,1 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#505050"><path d="M20.45 17.39L12.36 21.97V18.4L17.4 15.63L20.45 17.39M21 16.89V7.31L18.04 9V15.18L21 16.89M3.55 17.39L11.64 21.96V18.4L6.6 15.63L3.55 17.39M3 16.89V7.31L5.96 9V15.18L3 16.89M3.35 6.69L11.64 2V5.45L6.33 8.37L6.28 8.39L3.35 6.69M20.65 6.69L12.36 2V5.45L17.67 8.38L17.71 8.4L20.65 6.69M11.64 17.59L6.67 14.85V9.44L11.64 12.31V17.59M12.36 17.59L17.33 14.86V9.44L12.36 12.31V17.59M7 8.81L12 6.06L17 8.81L12 11.69L7 8.81Z" /></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 24 24"
+   fill="#505050"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="language-shiny.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="4.5753665"
+     inkscape:cx="1.9670555"
+     inkscape:cy="10.490963"
+     inkscape:window-width="1512"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="m 20.45,17.405 -8.09,4.58 v -3.57 l 5.04,-2.77 3.05,1.76 m 0.55,-0.5 v -9.58 l -2.96,1.69 v 6.18 l 2.96,1.71 m -17.45,0.5 8.09,4.57 v -3.56 L 6.6,15.645 3.55,17.405 M 3,16.905 v -9.58 l 2.96,1.69 v 6.18 L 3,16.905 m 0.35,-10.2 8.29,-4.69 v 3.45 l -5.31,2.92 -0.05,0.02 -2.93,-1.7 m 17.3,0 -8.29,-4.69 v 3.45 l 5.31,2.93 0.04,0.02 2.94,-1.71 m -9.01,10.9 -4.97,-2.74 v -5.41 l 4.97,2.87 v 5.28 m 0.72,0 4.97,-2.73 v -5.42 l -4.97,2.87 v 5.28 M 7,8.825 l 5,-2.75 5,2.75 -5,2.88 z"
+     id="path1" />
+</svg>

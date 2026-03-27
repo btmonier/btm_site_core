@@ -1,1 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="#505050"><!--!Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M610.5 290.6C610.5 183.1 480.4 96 320 96C159.6 96 29.5 183.1 29.5 290.6C29.5 386.4 132.8 466 268.9 482.1L268.9 544L368 544L368 482.5C392.3 479.8 415.6 475.1 437.4 468.6L477.5 544L589.5 544L522.1 430.3C576.6 394.9 610.5 345.4 610.5 290.6zM143.7 305.1C143.7 231.6 242.6 172.1 364.5 172.1C486.4 172.1 576.4 212.8 576.4 305.1C576.4 355.2 549.9 390.1 506.1 411.5C503.7 409.9 501.4 408.6 499.7 407.8C489.5 402.6 471.9 397.3 471.9 397.3C471.9 397.3 558.5 390.9 558.5 304.6C558.5 218.3 467.9 216.7 467.9 216.7L268.9 216.7L268.9 425C194.8 403.5 143.7 357.9 143.7 305.1zM368.8 343.4L368.8 287.8C426.6 287.8 456.6 281 456.6 315.1C456.6 351.6 418.4 343.4 368.8 343.4zM367.9 415.9L394.5 415.9C405.3 415.9 413.4 427.6 418.5 435.1C402.4 437 385.5 437.9 367.9 438L367.9 415.9z"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 24 24"
+   fill="#505050"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="language-r.svg"
+   width="24"
+   height="24"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="5.3622101"
+     inkscape:cx="27.041089"
+     inkscape:cy="19.767968"
+     inkscape:window-width="1512"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!--!Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+  <path
+     d="m 21,11.089154 c 0,-3.3304634 -4.030637,-6.0289146 -9.000001,-6.0289146 -4.9693624,0 -8.9999992,2.6984512 -8.9999992,6.0289146 0,2.967988 3.2003437,5.434082 7.4168682,5.932875 v 1.917732 h 3.070223 v -1.905343 c 0.752839,-0.0836 1.474698,-0.229262 2.150086,-0.430635 l 1.24234,2.335978 h 3.46988 L 18.261274,15.417204 C 19.949741,14.320482 21,12.786916 21,11.089154 Z M 6.5380378,11.538379 c 0,-2.2771105 3.0640276,-4.1204805 6.8406182,-4.1204805 3.776593,0 6.564889,1.2609301 6.564889,4.1204805 0,1.552146 -0.820998,2.633388 -2.177968,3.296385 -0.07436,-0.0496 -0.145612,-0.0898 -0.198279,-0.114625 -0.316008,-0.161105 -0.861275,-0.325299 -0.861275,-0.325299 0,0 2.682961,-0.198283 2.682961,-2.871951 0,-2.6736643 -2.806884,-2.7232346 -2.806884,-2.7232346 H 10.416868 V 15.25301 C 8.1211697,14.586913 6.5380378,13.174182 6.5380378,11.538379 Z m 6.9738382,1.186579 v -1.722551 c 1.790704,0 2.720137,-0.210672 2.720137,0.845781 0,1.130811 -1.183477,0.87677 -2.720137,0.87677 z m -0.02788,2.246132 h 0.824096 c 0.334595,0 0.585542,0.362468 0.743546,0.594829 -0.498795,0.05889 -1.022376,0.0867 -1.567642,0.0898 z"
+     id="path1"
+     style="stroke-width:0.999996" />
+</svg>
