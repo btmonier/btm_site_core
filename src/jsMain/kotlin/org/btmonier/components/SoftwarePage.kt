@@ -136,6 +136,14 @@ fun createSoftwarePage(software: List<Software>): HTMLElement {
                             sw.tags.forEach { tag ->
                                 span("md-chip md-chip-suggestion software-tag-chip") {
                                     attributes["data-tag"] = tag
+                                    val tagIconPath = LanguageIconPaths.webPath(tag)
+                                    if (tagIconPath != null) {
+                                        img(
+                                            src = tagIconPath,
+                                            alt = "",
+                                            classes = "software-tag-chip-img",
+                                        )
+                                    }
                                     +tag
                                 }
                             }
