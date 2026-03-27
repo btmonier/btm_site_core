@@ -1,6 +1,6 @@
 # Data Overview
 
-This document provides a summary of each JSON data file used in the personal site. All files are located in `src/jsMain/resources/content/`.
+This document provides a summary of each JSON data file used in the personal site. All files are located in `src/commonMain/resources/content/`.
 
 ---
 

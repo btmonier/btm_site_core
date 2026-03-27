@@ -17,7 +17,7 @@ class GenerateCv : CliktCommand(
     private val dataDir: String by option(
         "-d", "--data",
         help = "Directory containing JSON data files"
-    ).default("src/jsMain/resources/content")
+    ).default("src/commonMain/resources/content")
 
     override fun run() {
         val dataDirFile = File(dataDir)

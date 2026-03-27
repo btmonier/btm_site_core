@@ -50,7 +50,7 @@ jobs:
           head -30 build/dist/js/productionExecutable/content/publications.json 2>/dev/null || echo "publications.json not found in build"
           echo ""
           echo "=== Source publications.json (first 30 lines) ==="
-          head -30 src/jsMain/resources/content/publications.json
+          head -30 src/commonMain/resources/content/publications.json
           
       - name: Create 404.html for GitHub Pages
         run: |
@@ -102,7 +102,7 @@ jobs:
           pwd
           echo ""
           echo "=== Verify data directory exists ==="
-          ls -la src/jsMain/resources/content/ || echo "Data directory not found!"
+          ls -la src/commonMain/resources/content/ || echo "Data directory not found!"
           echo ""
           echo "=== Running Gradle jvmRun ==="
           ./gradlew clean jvmRun --args="-o btmonier_cv.pdf" --no-build-cache --stacktrace 2>&1

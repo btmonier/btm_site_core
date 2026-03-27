@@ -156,7 +156,7 @@ parse_citation_history <- function(page) {
 }
 
 # ---- CONFIG ----
-json_out <- "src/jsMain/resources/content/scholar.json"
+json_out <- "src/commonMain/resources/content/scholar.json"
 
 log_info("Starting Google Scholar metrics extraction from saved HTML")
 
