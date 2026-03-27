@@ -1,5 +1,5 @@
 [workspace]
-name = "scholar-metrics"
+name = "Site Actions"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
@@ -13,5 +13,6 @@ r-dplyr     = "*"
 r-rvest     = "*"
 
 [tasks]
-# Adjust path if your script lives somewhere else
 metrics = "Rscript scripts/scrape_gs_metrics.R"
+cv      = { cmd = "./gradlew jvmRun --args='-o {{ output }}'", args = [{ arg = "output", default = "btmonier_cv.pdf" }] }
+website = "./gradlew jsBrowserDevelopmentRun --continuous"
