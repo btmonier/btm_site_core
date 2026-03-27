@@ -1,8 +1,15 @@
 {
   "items": [
     {
+      "name": "BTM Site (core)",
+      "description": "Custom website and CV PDF generator built with Kotlin Multiplatform.",
+      "languages": ["Kotlin"],
+      "repoUrl": "https://github.com/btmonier/btm_site_core",
+      "tags": ["Website", "Kotlin Multiplatform", "CV"]
+    },
+    {
       "name": "rTASSEL Insights",
-      "description": "GitHub Insights dashboard for the rTASSEL repository. Leverages the GitHub API to collect and visualize traffic and repository statistics.",
+      "description": "GitHub Insights dashboard for the rTASSEL repository that uses the GitHub API to collect and visualize traffic and repository stats.",
       "languages": ["R", "TypeScript"],
       "repoUrl": "https://github.com/btmonier/rtassel_insights",
       "tags": ["rTASSEL", "Dashboard", "GitHub API", "Visualization"]
@@ -17,7 +24,7 @@
     {
       "name": "MLImpute",
       "description": "Pangenome imputation using machine learning.",
-      "languages": ["TypeScript", "Rust", "Python", "Kotlin"],
+      "languages": ["WASM", "TypeScript", "Rust", "Python", "Kotlin"],
       "repoUrl": "https://github.com/maize-genetics/MLImpute",
       "tags": ["Imputation", "Machine Learning"]
     },
@@ -134,10 +141,10 @@
     },
     {
       "name": "askDB",
-      "description": "Andropogoneae Systems Knowledge Database - a comprehensive database for grass genomics research",
-      "languages": ["JavaScript", "HTML", "CSS"],
+      "description": "Andropogoneae Systems Knowledge Database — a Neo4j-backed database for GWAS data with R language interfaces and tooling.",
+      "languages": ["R", "Database"],
       "repoUrl": "https://bitbucket.org/bucklerlab/askdb/src/master/",
-      "tags": ["Database", "Andropogoneae", "Genomics"]
+      "tags": ["Database", "R", "Andropogoneae", "Genomics"]
     },
     {
       "name": "IRIS-EDA",
