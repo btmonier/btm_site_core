@@ -56,3 +56,6 @@ kotlin-js-store/
 ### Pixi (R environment) ###
 .pixi/
 pixi.lock
+
+### Local secrets ###
+.env

@@ -11,8 +11,10 @@ r = ">=4.3,<5"
 r-jsonlite  = "*"
 r-dplyr     = "*"
 r-rvest     = "*"
+r-httr      = "*"
 
 [tasks]
 metrics = "Rscript scripts/scrape_gs_metrics.R"
+ghcont  = "Rscript scripts/scrape_github_contributions.R"
 cv      = { cmd = "./gradlew jvmRun --args='-o {{ output }}'", args = [{ arg = "output", default = "btmonier_cv.pdf" }] }
 website = "./gradlew jsBrowserDevelopmentRun --continuous"
