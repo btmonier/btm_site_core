@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.btmonier"
-version = "0.3.3"
+version = "0.4.0"
 
 repositories {
     mavenCentral()
@@ -105,4 +105,20 @@ kotlin.sourceSets.named("jsMain") {
 
 tasks.named("compileKotlinJs") {
     dependsOn(generateBuildConfig)
+}
+
+// Generate the CV PDF into the JS distribution so it is served by the site
+val generateCv by tasks.registering(JavaExec::class) {
+    group = "build"
+    description = "Generate the CV PDF into the JS distribution"
+    val jvmCompilation = kotlin.jvm().compilations.getByName("main")
+    classpath = jvmCompilation.output.allOutputs + jvmCompilation.runtimeDependencyFiles
+    mainClass.set("org.btmonier.cli.MainKt")
+    val pdfOut = layout.buildDirectory.file("dist/js/productionExecutable/cv/btmonier_cv.pdf")
+    doFirst { pdfOut.get().asFile.parentFile.mkdirs() }
+    args("-o", pdfOut.get().asFile.absolutePath)
+}
+
+tasks.named("jsBrowserDistribution") {
+    finalizedBy(generateCv)
 }
