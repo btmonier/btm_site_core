@@ -3,8 +3,14 @@ name: Build and Deploy Site
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
   pull_request:
     branches: [main, master]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
   workflow_dispatch:
 
 permissions:
