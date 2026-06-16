@@ -14,7 +14,8 @@ My personal profile and CV generator built using [Kotlin Mutliplatform](https://
 
 ## Pixi Tasks
 
-All tasks are managed through [pixi](https://pixi.sh). Run `pixi install` on a fresh machine to set up dependencies.
+Since I am using an R script to scrape HTML for GS metrics, all tasks are managed through 
+[pixi](https://pixi.sh). Run `pixi install` on a fresh machine to set up dependencies (R + necessary libraries).
 
 ### Build and serve the website
 
