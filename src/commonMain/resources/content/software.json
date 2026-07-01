@@ -1,6 +1,13 @@
 {
   "items": [
     {
+      "name": "seqsim",
+      "description": "Pangenome training data simulator for GRITS",
+      "languages": ["Kotlin"],
+      "repoUrl": "https://github.com/maize-genetis/seq_sim",
+      "tags": ["Simulation", "Pangenomes", "Pipeline"]
+    },
+    {
       "name": "BTM Site (core)",
       "description": "Custom website and CV PDF generator built with Kotlin Multiplatform.",
       "languages": ["Kotlin"],
@@ -22,10 +29,10 @@
       "tags": ["CLI", "S7"]
     },
     {
-      "name": "MLImpute",
+      "name": "GRITS",
       "description": "Pangenome imputation using machine learning.",
       "languages": ["WASM", "TypeScript", "Rust", "Python", "Kotlin"],
-      "repoUrl": "https://github.com/maize-genetics/MLImpute",
+      "repoUrl": "https://github.com/maize-genetics/grits",
       "tags": ["Imputation", "Machine Learning"]
     },
     {
