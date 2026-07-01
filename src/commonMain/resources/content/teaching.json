@@ -1,6 +1,14 @@
 {
   "items": [
     {
+      "title": "R Fundamentals",
+      "institution": "eCornell",
+      "period": "2026",
+      "description": "Created lesson plans and collaborated with eCornell and local video production teams to create a series virtual lesson modules for learning the basics of R and programming",
+      "url": null,
+      "participants": null
+    },
+    {
       "title": "Feed the Future ILCI rTASSEL Workshop",
       "institution": "Lilongwe Univeristy of Agrictultural and Natural Resources (LUANAR), Malawi",
       "period": "2024",
